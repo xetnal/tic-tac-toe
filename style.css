@@ -17,23 +17,20 @@ body {
     border: 1px solid black;
     height: 450px;
     width: 450px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    display: flex;                       /* establish flex container */
+    flex-wrap: wrap;                     /* enable flex items to wrap */
+    
 }
 
-.row {
-    border: 1px solid black;    
-    display: flex;
-    justify-content: space-between;
-    flex: 1 1 auto;
-   
-}
+
 
 .cell {
     border: 1px solid black;
+    flex: 1 1 32%;                       /* don't grow, don't shrink, width */
     display: flex;
-    flex-basis: auto;
-    flex: 1 1 auto;    
-    
+    justify-content: center;
+    align-items: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 40px;
+    min-height: 100px;
 }
