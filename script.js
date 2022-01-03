@@ -51,12 +51,14 @@ const gameFlow = () => {
   for (let index = 0; index < 9; index++) {
     cells[index] = document.getElementById(parseInt(index));
     cells[index].addEventListener("click", () => {
-      addMark(index);
+     
+       addMark(index);
+       cells[index].style.pointerEvents = 'none';
     });
   }
 
-  const player1 = getPlayer("player1", "X");
-  const player2 = getPlayer("player2", "O");
+  const player1 = getPlayer("Circles", "X");
+  const player2 = getPlayer("Crosses", "O");
   let board = [
     ["", "", ""],
     ["", "", ""],
@@ -78,37 +80,78 @@ const gameFlow = () => {
     isWin();
     isTie();
     switchPlayers();
+    
     console.log(board);
+    console.log(isWin());
+    console.log(isTie());
   };
 
-  const isWin = () => {
-    WIN_CONDITIONS.forEach((element) => {
-      const [firstElement, secondElement, thirdElement] = element;
-      if (
-        (board[firstElement[0]][firstElement[1]] ===
-          board[secondElement[0]][secondElement[1]]) ===
-          board[thirdElement[0][thirdElement[1]]] &&
-        board[secondElement[0]][secondElement[1]] !== ""
-      ) {
-        return true;
+ 
+  const winnerDisplay = document.getElementById('winnerDisplay');
+  const isWin =() => {
+    let win = false
+    //Checking each horizontal
+    board.forEach(line => {
+      if((line[0] === line[1] && line[1] === line[2]) && ((line[0]) !== "")) {
+        win = true
       }
-    });
-    return false;
-  };
+    })
+    //Checking vertical
+    if((board[0][0] === board[1][0] && board[1][0] === board[2][0]) && (board[1][0]) !== ""){
+      win = true
+    }
+    if((board[0][1] === board[1][1] && board[1][1] === board[2][1]) && ((board[0][1] !== ""))){
+      win = true
+    }
+    if((board[0][2] === board[1][2] && board[1][2] === board[2][2]) && (board[0][2] !== "")){
+      win = true
+    }
+    //Checking diagonal
+    if((board[0][0] === board[1][1] && board[1][1] === board[2][2]) && (board[0][0] != "")){
+      win = true
+    }
+    if((board[0][2] === board[1][1] && board[1][1] === board[2][0]) && (board[0][2] !== "")){
+      win = true
+    }
+    if(win){
+      winnerDisplay.innerHTML = currentPlayer.getName() + ' wins!';
+      return true
+    } else {
+      return false
+    }
+    }
 
   const isTie = () => {
-    board.forEach((row) => {
-      if (!row.includes("") && !isWin()) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    tie = false;
+    if ((isWin() === false) && (boardIsFull())) {
+      winnerDisplay.innerHTML = 'Its a TIE!'
+      tie = true;
+    }
+    if (tie) {
+      return true
+    } else{ 
+      return false
+    }
+    }
+  
+  
+  function boardIsFull(){
+    let result = true;
+    for (let i=0; i<board.length; i++){
+        // if board[i] contains any spaces, we aren't full!
+        if (board[i].includes("")) {
+          result = false
+        }
+    }
+    return result;
+  }
+    
+  
+    
+
+  const resetBoard = () => {
+
   };
-
-  const displayWinner = () => {};
-
-  const resetBoard = () => {};
 
   const switchPlayers = () => {
     if (currentPlayer === player1) {
@@ -127,6 +170,7 @@ const gameFlow = () => {
     isWin,
     // resetBoard,
     switchPlayers, //done
+    boardIsFull,
   };
 };
 gameFlow();
