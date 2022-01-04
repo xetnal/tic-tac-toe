@@ -57,8 +57,8 @@ const gameFlow = () => {
     });
   }
 
-  const player1 = getPlayer("Circles", "X");
-  const player2 = getPlayer("Crosses", "O");
+  const player1 = getPlayer("Crosses", "X");
+  const player2 = getPlayer("Circles", "O");
   let board = [
     ["", "", ""],
     ["", "", ""],
@@ -114,7 +114,7 @@ const gameFlow = () => {
       win = true
     }
     if(win){
-      winnerDisplay.innerHTML = currentPlayer.getName() + ' wins!';
+      winnerDisplay.innerHTML = 'WE HAVE A WINNER!';
       return true
     } else {
       return false
@@ -148,16 +148,31 @@ const gameFlow = () => {
     
   
     
-
+  const resetBtn = document.getElementById("resetBtn")
+  resetBtn.addEventListener('click', () => {
+    resetBoard()
+  })
   const resetBoard = () => {
-
+    board = [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+    ];
+    for (let index = 0; index < 9; index++) {
+      cells[index].innerHTML = "";
+      winnerDisplay.innerHTML = "";
+      cells[index].style.pointerEvents = 'auto';
+    }
+    
   };
 
   const switchPlayers = () => {
     if (currentPlayer === player1) {
       currentPlayer = player2;
+      winnerDisplay.innerHTML = currentPlayer.getName() + ' turn!'
     } else {
       currentPlayer = player1;
+      winnerDisplay.innerHTML = currentPlayer.getName() + ' turn!'
     }
   };
 
